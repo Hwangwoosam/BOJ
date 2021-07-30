@@ -39,7 +39,7 @@ int main(){
                     fire[j][k] = 1;
                     a.push({j,k});                
                 }else if(map[k][j] == '@'){
-                    person[j][k] = 1;
+                    person[k][j] = 1;
                     start_y = j;
                     start_x = k;
                 }
@@ -68,7 +68,7 @@ int main(){
          for(int j = 0; j < 1000; j++){
             memset(visit[j],0,sizeof(int)*1000);
         }
-
+    
         a.push({start_x,start_y});
         int flag = 0;
         while(!a.empty()){
@@ -85,7 +85,7 @@ int main(){
                 if(map[next_x][next_y] != '.' && map[next_x][next_y] != '@'){
                     continue;
                 }
-                if(person[next_x][next_y] + 1 < fire[cur_x][cur_y]){
+                if(person[next_x][next_y] > person[cur_x][cur_y] + 1 && fire[next_x][next_y] >person[cur_x][cur_y] +1){
                     person[next_x][next_y] = person[cur_x][cur_y] +1;
                 }
                 if(next_x == h-1 || next_y == w-1){
