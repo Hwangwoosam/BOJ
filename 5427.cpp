@@ -38,13 +38,14 @@ int main(){
                 if(map[j][k] == '*'){
                     fire[j][k] = 1;
                     a.push({j,k});                
-                }else if(map[k][j] == '@'){
-                    person[k][j] = 1;
-                    start_y = j;
-                    start_x = k;
+                }else if(map[j][k] == '@'){
+                    person[j][k] = 1;
+                    start_y = k;
+                    start_x = j;
                 }
             }
         }
+        
         while(!a.empty()){
             int cur_x = a.front().first;
             int cur_y = a.front().second;
@@ -75,6 +76,11 @@ int main(){
             int cur_x = a.front().first;
             int cur_y = a.front().second;
             visit[cur_x][cur_y] = 1;
+            if(cur_x == h-1 || cur_y == w-1){
+                printf("1\n");
+                flag = 1;
+                break;
+            }
             a.pop();
             for(int i = 0; i < 4; i ++){
                 int next_x = cur_x + dir[i][0];
@@ -87,8 +93,10 @@ int main(){
                 }
                 if(person[next_x][next_y] > person[cur_x][cur_y] + 1 && fire[next_x][next_y] >person[cur_x][cur_y] +1){
                     person[next_x][next_y] = person[cur_x][cur_y] +1;
+                }else{
+                    continue;
                 }
-                if(next_x == h-1 || next_y == w-1){
+                if(next_x == h-1 || next_y == w-1 || next_x == 0 || next_y == 0){
                     printf("%d\n",person[next_x][next_y]);
                     flag = 1;
                     break;
