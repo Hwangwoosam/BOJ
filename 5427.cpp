@@ -27,7 +27,6 @@ int main(){
         for(int j = 0; j < 1000; j++){
             memset(fire[j],1,sizeof(int)*1000);
             memset(person[j],1,sizeof(int)*1000);
-            memset(map[j],0,sizeof(char)*1000);
             memset(visit[j],0,sizeof(int)*1000);
         }
         int w, h;
@@ -49,12 +48,11 @@ int main(){
         while(!a.empty()){
             int cur_x = a.front().first;
             int cur_y = a.front().second;
-            visit[cur_x][cur_y] = 1;
             a.pop();
             for(int i = 0; i < 4; i ++){
                 int next_x = cur_x + dir[i][0];
                 int next_y = cur_y + dir[i][1];
-                if(next_x < 0 || next_x >= h || next_y < 0 || next_y >=w || map[next_x][next_y] =='#' || visit[next_x][next_y] == 1){
+                if(next_x < 0 || next_x >= h || next_y < 0 || next_y >=w || map[next_x][next_y] =='#'){
                     continue;
                 }
                 if(map[next_x][next_y] != '.' && map[next_x][next_y] != '@'){
@@ -62,21 +60,18 @@ int main(){
                 }
                 if(fire[next_x][next_y] > fire[cur_x][cur_y]+1){
                     fire[next_x][next_y] = fire[cur_x][cur_y] +1;
+                     a.push({next_x,next_y});
                 }
-                a.push({next_x,next_y});
             }
         }
-         for(int j = 0; j < 1000; j++){
-            memset(visit[j],0,sizeof(int)*1000);
-        }
-    
+
         a.push({start_x,start_y});
         int flag = 0;
         while(!a.empty()){
             int cur_x = a.front().first;
             int cur_y = a.front().second;
             visit[cur_x][cur_y] = 1;
-            if(cur_x == h-1 || cur_y == w-1){
+            if(cur_x == h-1 || cur_y == w-1 || cur_x == 0 || cur_y == 0){
                 printf("1\n");
                 flag = 1;
                 break;
@@ -112,8 +107,4 @@ int main(){
         }
         
     }
- 
-
-
-    
 }
