@@ -13,10 +13,11 @@ void dfs(int num, int size){
         }
         std::cout << "\n";
     }else{
-        for(int i = 0; i < m; i++){
+        //i 는 개수
+        for(int i = 1; i <= n; i++){
             if(!visited[i]){
                 visited[i] = true;
-                arr[i] = numbers[i];
+                arr[size] = numbers[i-1];
                 dfs(i+1,size+1);
                 visited[i] = false;
             }
@@ -26,10 +27,11 @@ void dfs(int num, int size){
 
 int main(){
     std::cin >> n >> m;
+
     for(int i = 0; i < n; i++){
         std::cin >> numbers[i];
     }
-    std::sort(numbers,numbers + m);
+    std::sort(numbers,numbers + n);
 
     dfs(1,0);
 
