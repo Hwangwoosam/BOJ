@@ -14,7 +14,6 @@ int main(){
         if(idx == inp.length()){
             break;
         }
-
         if(inp[idx] == bomb.back()){
             int j = 0;
             bool checker = false;
@@ -26,7 +25,9 @@ int main(){
             }
 
             if(!checker){
-                ans.erase(ans.length()-j,ans.length()-1);
+                ans.erase(ans.length()-j + 1,ans.length());
+            }else{
+                ans += inp[idx];
             }
         }else{
             ans += inp[idx];
@@ -34,7 +35,9 @@ int main(){
 
         idx++;
     }
-
+    if(ans ==""){
+        ans = "FRULA";
+    }
     std::cout << ans << "\n";
     return 0;
 }
