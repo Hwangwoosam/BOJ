@@ -23,7 +23,7 @@ void bfs(){
             int nextX = curX + dx[i];
             int nextY = curY + dy[i];
             
-            if(nextX < 0 || nextY < 0 || nextX >= n || nextY >=n || map[nextX][nextY] == '#' || visited[nextX][nextY]) continue;
+            if(nextX < 0 || nextY < 0 || nextX >= n || nextY >= m || map[nextX][nextY] == '#' || visited[nextX][nextY]) continue;
             
             if(map[nextX][nextY] == '+'){
 
