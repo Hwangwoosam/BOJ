@@ -27,8 +27,6 @@ int main(){
         for(int j = 1; j <= n; j++){
             if(maxVal < rdp[i][j] + dp[i][j]){
                 maxVal = rdp[i][j] + dp[i][j];
-                row = i;
-                col = j;
             }
         }
     }
@@ -49,8 +47,6 @@ int main(){
     //     cout << "\n";
     // }
 
-    answer = dp[row][col] + rdp[row][col];
-
-    cout << answer << "\n";
+    cout << maxVal << "\n";
     return 0;
 }
