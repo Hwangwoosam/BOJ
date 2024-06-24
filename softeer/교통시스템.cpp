@@ -46,7 +46,7 @@ int main(){
 
     queue<pair<int,pair<int,int>>> q;
     q.push({0,{0,0}});
-    visited[0][0][0][1] = 1;
+    visited[0][0][0][0] = 1;
     answer.insert({0,0});
     int time = 0;
     while(!q.empty()){
