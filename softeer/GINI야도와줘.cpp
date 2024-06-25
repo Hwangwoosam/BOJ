@@ -91,7 +91,7 @@ int main(){
             if(userTime[curX][curY] + 1 >= rain[nx][ny]) continue;
 
             visited[nx][ny] = true;
-            userTime[nx][ny] = min(userTime[nx][ny],userTime[curX][curY] + 1);
+            userTime[nx][ny] = userTime[curX][curY] + 1;
             user.push({nx,ny});
         }
     }
