@@ -4,13 +4,14 @@
 
 using namespace std;
 
-int a,b,n;
 priority_queue<pair<int,char>,vector<pair<int,char>>,greater<pair<int,char>>> pq;
 
 int main(){
+    ios_base::sync_with_stdio(false);
+	cin.tie();
+
+    int a,b,n;
     cin >> a >> b >> n;
-
-
     int maxR = -1, maxB = -1;
     for(int i = 0; i < n; i++){
         int t,m;
@@ -21,17 +22,17 @@ int main(){
         if(c == 'B'){
             if(maxB > t)  t = maxB;
             for(int j = t; cnt < m; j += a){
-                pq.push({j,c});
+                pq.push(make_pair(j,c));
                 cnt += 1;
             }
             maxB = t +m*a;
         }else{
             if(maxR > t)  t = maxR;
             for(int j = t; cnt < m; j += b){
-                pq.push({j,c});
+                pq.push(make_pair(j,c));
                 cnt += 1;
             }
-            maxB = t +m*b;
+            maxR = t +m*b;
         }   
     }
 
