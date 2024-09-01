@@ -4,24 +4,27 @@
 using namespace std;
 
 int main(){
-    int n;
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+    long n;
     cin >> n;
 
-    int digit = to_string(n).size();
+    long digit = to_string(n).size();
     
-    int st = n - 9*digit;
-    for(int i = st; i <= n; i++){
-        long curNum = i;
+    long st = n - 9*digit;
+    for(long i = st; i < n; i++){
+        string curNum = to_string(i);
         long sum = i;
-
-        while(curNum > 0){
-            sum += curNum%10;
-            curNum /= 10;
+        
+        int curNumSize = curNum.size();
+        for(int j = 0; j < curNumSize; j++){
+            sum += curNum[j]-'0';
         }
 
         if(sum == n){
             cout << i << "\n";
-            return;
+            return 0;
         }
     }
 
