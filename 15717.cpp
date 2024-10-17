@@ -13,6 +13,7 @@ n = 3 : 4
 
 long long getNumber(long long n){
     if(n == 1) return 2;
+    else if(n == 0) return 1;
 
     long long ret = (getNumber(n/2)%MOD);
     if(n%2 == 0) return (ret*ret)%MOD;
@@ -22,7 +23,8 @@ long long getNumber(long long n){
 int main(){
     long long n;
     cin >> n;
-    long long ans = getNumber(n-1);
+    n = n != 0 ? n-1 : 0;
+    long long ans = getNumber(n);
 
     cout << ans << "\n";
 
