@@ -1,95 +1,63 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main{
-    static int[] a,b;
-    static int n,m,k;
-    static boolean[] visited;
-    public static void main(String[] args) throws Exception{
+class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int t = Integer.parseInt(br.readLine()); 
-
-        StringTokenizer st;
-        for(int i = 0; i < t; i++){
-            st = new StringTokenizer(br.readLine());
-
-            n = Integer.parseInt(st.nextToken());
-            m = Integer.parseInt(st.nextToken());
-            k = Integer.parseInt(st.nextToken());
+        int T = Integer.parseInt(br.readLine());
+        
+        while (T-- > 0) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
+            int k = Integer.parseInt(st.nextToken());
             
-            a = new int[m];
-            b = new int[n];
-            visited = new boolean[n+m];
-
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < n ; j++) b[j] = Integer.parseInt(st.nextToken());
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < m ; j++) a[j] = Integer.parseInt(st.nextToken());
-
-            Arrays.sort(a);
-            Arrays.sort(b);
-
-            ArrayList<Long> a_sums = new ArrayList<>(generate_sum(a));
-            ArrayList<Long> b_sums = new ArrayList<>(generate_sum(b));
-
-            Long maxVal = Math.max(Math.abs(a_sums.get(0) - b_sums.get(b_sums.size()-1)), Math.abs(b_sums.get(0) - a_sums.get(a_sums.size()-1)));
-            Long minVal = findMin(a_sums,b_sums);
-
-            System.out.println(minVal + " " + maxVal);
-        }
-    }
-
-    static Set<Long> generate_sum(int[] arr){
-        Set<Long> sum = new TreeSet<>();
-        findSum(arr,0,0,0L,sum);
-        return sum;
-    } 
-
-    static void findSum(int[] arr,int start,int cnt, Long curSum, Set<Long> sums){
-        if(cnt == k){
-            sums.add(curSum);
-            return;
-        }
-
-        for(int i = start; i < arr.length; i++){
-            findSum(arr,i+1,cnt+1,curSum + arr[i],sums);
-        }
-    }
-
-    static Long findMin( ArrayList<Long> a,  ArrayList<Long> b){
-         Long minDiff = Long.MAX_VALUE;
-
-        for (Long num : a) {
-            int idx = binSearch(b, num);
+            int[] a = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            int[] b = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
             
-            // target보다 작거나 같은 값 확인
-            if (idx >= 0) {
-                minDiff = Math.min(minDiff, Math.abs(b.get(idx) - num));
+            List<Integer> sumA = generateSums(a, k);
+            List<Integer> sumB = generateSums(b, k);
+            
+            Collections.sort(sumA);
+            Collections.sort(sumB);
+            
+            int maxDiff = 0;
+            int minDiff = Integer.MAX_VALUE;
+            
+            for (int sa : sumA) {
+                int indexB = Collections.binarySearch(sumB, sa);
+                if (indexB < 0) indexB = -indexB - 1;
+                
+                if (indexB < sumB.size()) {
+                    int diff = Math.abs(sa - sumB.get(indexB));
+                    maxDiff = Math.max(maxDiff, diff);
+                    minDiff = Math.min(minDiff, diff);
+                }
+                if (indexB > 0) {
+                    int diff = Math.abs(sa - sumB.get(indexB - 1));
+                    maxDiff = Math.max(maxDiff, diff);
+                    minDiff = Math.min(minDiff, diff);
+                }
             }
             
-            // target보다 큰 값 확인
-            if (idx + 1 < b.size()) {
-                minDiff = Math.min(minDiff, Math.abs(b.get(idx + 1) - num));
-            }
+            System.out.println(maxDiff + " " + minDiff);
         }
-
-        return minDiff;
     }
-
-    static int binSearch(ArrayList<Long> arr, Long target){
-        int left = 0;
-        int right = arr.size() - 1;
-
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr.get(mid) <= target) {
-                left = mid + 1;
-            } else {
-                right = mid;
+    
+    static List<Integer> generateSums(int[] arr, int k) {
+        List<Integer> sums = new ArrayList<>();
+        int n = arr.length;
+        for (int mask = 0; mask < (1 << n); mask++) {
+            if (Integer.bitCount(mask) == k) {
+                int sum = 0;
+                for (int i = 0; i < n; i++) {
+                    if ((mask & (1 << i)) != 0) {
+                        sum += arr[i];
+                    }
+                }
+                sums.add(sum);
             }
         }
-
-        return left - 1;
+        return sums;
     }
 }
