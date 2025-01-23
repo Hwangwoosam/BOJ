@@ -1,47 +1,54 @@
 import java.util.*;
 import java.io.*;
 
-class Main{
-    static int n;
-    static int[] t,b;
-    static long[] c;
-    static int[] dp;
-    public static void main(String[] args) throws Exception{
+class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        n = Integer.parseInt(br.readLine());
-        t = new int[n+1];
-        b = new int[n+1];
-        c = new long[n+1];
-        dp = new int[n+1];
-        
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) t[i] = Integer.parseInt(st.nextToken());
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) b[i] = Integer.parseInt(st.nextToken());
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) c[i] = Long.parseLong(st.nextToken());
+        int n = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < n; i++){
-            dp[i] = Math.max(dp[i],c[i]);
-            int idx = i;
-            while(idx < n){
-                idx = findNext();
+        int[] t = new int[n];
+        int[] b = new int[n];
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            t[i] = Integer.parseInt(st.nextToken());
+        }
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            b[i] = Integer.parseInt(st.nextToken());
+        }
+
+        long[] dp = new long[n];
+        st = new StringTokenizer(br.readLine());
+        dp[0] = Long.parseLong(st.nextToken());
+
+        for (int i = 1; i < n; i++) {
+            long c = Long.parseLong(st.nextToken());
+            int prevIdx = lowerBound(t, 0, i + 1, t[i] - b[i]) - 1;
+
+            dp[i] = Math.max(dp[i - 1], c);
+            if (prevIdx >= 0) {
+                dp[i] = Math.max(dp[i], dp[prevIdx] + c);
             }
         }
 
+        System.out.println(dp[n - 1]);
     }
 
-    static findNext(int target){
-        int left = 0, right = n-1;
-        while(left < right){
-            int mid = (left+right)/2;
-
-            if(target > t[mid]-b[mid]) right--;
-            else if(target < t[mid] - b[mid]) left++;
-            else return mid;
+    private static int lowerBound(int[] arr, int start, int end, int key) {
+        int low = start;
+        int high = end;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (key <= arr[mid]) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
         }
-
-        return n;
+        return low;
     }
 }
