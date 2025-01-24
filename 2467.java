@@ -1,0 +1,36 @@
+import java.util.*;
+import java.io.*;
+
+class Main{
+    static int n;
+    static int [] num;
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        n = Integer.parseInt(br.readLine());
+
+        num = new int[n];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++) num[i] = Integer.parseInt(st.nextToken());
+
+        int left = 0, right = n-1;
+        long min = Long.MAX_VALUE;
+        int minL = 0, minR = 0;
+        while(left < right){
+            long sum = Math.abs(num[left] + num[right]);
+            if(min > sum) {
+                min = sum;
+                minL = left;
+                minR = right;
+            }
+            
+            if( sum >= 0) right--;
+            else left++;
+        }
+
+        System.out.println(num[minL] + " " + num[minR]);
+    }
+}
+
+
